@@ -118,20 +118,24 @@ class CameraController: UIViewController {
 
     self.cameraView.stackView.startLoading()
     cameraMan.takePhoto(previewLayer, location: locationManager?.latestLocation) { [weak self] asset in
-      guard let strongSelf = self else {
-        return
-      }
-
-      button.isEnabled = true
-      strongSelf.cameraView.stackView.stopLoading()
-
-      if let asset = asset {
-        if Config.Camera.imageLimit == 1 {
-            strongSelf.cart.reload([Image(asset: asset)])
-        } else {
-            strongSelf.cart.add(Image(asset: asset), newlyTaken: true)
+        guard let strongSelf = self else {
+            return
         }
-      }
+        
+        button.isEnabled = true
+        strongSelf.cameraView.stackView.stopLoading()
+
+        if let asset = asset {
+            if Config.Camera.imageLimit == 1 {
+                strongSelf.cart.reload([Image(asset: asset)])
+            } else {
+                strongSelf.cart.add(Image(asset: asset), newlyTaken: true)
+            }
+        }
+        
+        if Config.Camera.quickDoneEnabled {
+            EventHub.shared.doneWithImages?()
+        }
     }
   }
 

@@ -131,6 +131,9 @@ class GridView: UIView {
     button.setTitleColor(UIColor.lightGray, for: .disabled)
     button.titleLabel?.font = Config.Font.Text.regular.withSize(16)
     button.setTitle("Gallery.Done".g_localize(fallback: "Done"), for: UIControl.State())
+    if Config.Camera.quickDoneEnabled {
+        button.alpha = 0
+    }
     
     return button
   }

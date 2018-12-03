@@ -234,6 +234,10 @@ extension ImagesController: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     configureFrameViews()
+    
+    if Config.Camera.quickDoneEnabled {
+        EventHub.shared.doneWithImages?()
+    }
   }
 
   func configureFrameViews() {
