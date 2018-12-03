@@ -126,7 +126,11 @@ class CameraController: UIViewController {
       strongSelf.cameraView.stackView.stopLoading()
 
       if let asset = asset {
-        strongSelf.cart.add(Image(asset: asset), newlyTaken: true)
+        if Config.Camera.imageLimit == 1 {
+            strongSelf.cart.reload([Image(asset: asset)])
+        } else {
+            strongSelf.cart.add(Image(asset: asset), newlyTaken: true)
+        }
       }
     }
   }
@@ -136,8 +140,8 @@ class CameraController: UIViewController {
   }
     
   fileprivate func isBelowImageLimit() -> Bool {
-    return (Config.Camera.imageLimit == 0 || Config.Camera.imageLimit > cart.images.count)
-    }
+    return (Config.Camera.imageLimit == 0 || Config.Camera.imageLimit == 1 || Config.Camera.imageLimit > cart.images.count)
+  }
     
   // MARK: - View
 
