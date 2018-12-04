@@ -54,6 +54,15 @@ public struct Config {
     
     public static var quickDoneEnabled: Bool = false
     
+    public struct Preview {
+        public static var frame: Frame = .full
+        
+        public enum Frame {
+            case full
+            case square
+        }
+    }
+    
   }
 
   public struct Grid {

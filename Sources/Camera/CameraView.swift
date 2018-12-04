@@ -114,7 +114,8 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     layer.connection?.videoOrientation = Utils.videoOrientation()
     
     self.layer.insertSublayer(layer, at: 0)
-    layer.frame = self.layer.bounds
+    
+    setupPreivewFrame(layer: layer)
 
     previewLayer = layer
   }
@@ -122,8 +123,25 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
   override func layoutSubviews() {
     super.layoutSubviews()
 
-    previewLayer?.frame = self.layer.bounds
+    setupPreivewFrame(layer: previewLayer)
   }
+    
+    
+    private func setupPreivewFrame(layer: AVCaptureVideoPreviewLayer?) {
+        switch Gallery.Config.Camera.Preview.frame {
+        case .square:
+            layer?.frame = CGRect(
+                origin: CGPoint(
+                    x: self.layer.bounds.origin.x,
+                    y: self.layer.bounds.height/2 - self.layer.bounds.width/2),
+                size: CGSize(
+                    width: self.layer.bounds.width,
+                    height: self.layer.bounds.width)
+            )
+        case .full:
+            layer?.frame =  self.layer.bounds
+        }
+    }
 
   // MARK: - Action
 
